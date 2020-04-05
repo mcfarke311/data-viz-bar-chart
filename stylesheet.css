@@ -1,0 +1,19 @@
+.bar {
+    fill: #7851a9;
+}
+
+.bar:hover {
+    opacity: 0.5;
+}
+
+#tooltip {
+    background-color: white;
+    color: black;
+    opacity: 0.3;
+    position: absolute;
+    display: inline-block;
+}
+
+#title {
+    text-align: center;
+}
