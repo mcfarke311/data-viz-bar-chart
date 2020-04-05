@@ -1,7 +1,7 @@
 // define the height and width of the chart
 const h = window.innerHeight;
 const w = window.innerWidth;
-const margin = ({top: 20, right: 50, bottom: 20, left: 50});
+const margin = ({top: 50, right: 150, bottom: 50, left: 150});
 
 // get the data
 let req = new XMLHttpRequest();
@@ -37,6 +37,9 @@ const svg = d3.select("body").append("svg")
     .attr("height", h)
     .attr("width", w);
 
+var tooltip = d3.select("body").append("div")
+    .attr("id", "tooltip")
+
 // create the y axis
 const yAxis = d3.axisLeft(yScale);
 
@@ -66,4 +69,18 @@ d3.select("svg").selectAll("rect")
     .attr("width", barWidth)
     .attr("x", (d, i) => (margin.left + (barWidth * i)))
     .attr("y", (d) => yScale(d[1]))
-    .attr("fill", "black");
+    .on("mouseover", function(d, i) {
+        tooltip.transition()
+            .duration(100)
+            .style("opacity", 0.8);
+        tooltip.style("margin-left", String(margin.left + (barWidth * i)) + "px");
+        tooltip.attr()
+        tooltip.style("bottom", margin.bottom + "px");
+        tooltip.html("Date: " + d[0] + "<br>GDP: " + d[1]);
+        tooltip.attr("data-date", d[0]).attr("data-gdp", d[1]);
+    })
+    .on("mouseout", function() {
+        tooltip.transition()
+        .duration(200)
+        .style("opacity", 0);
+    });
